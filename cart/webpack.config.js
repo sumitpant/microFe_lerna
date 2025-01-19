@@ -3,21 +3,18 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { dependencies } = require("webpack");
 
-module.exports = {
-    name: "main",
-    entry: './src/index.js',
-    mode: "development",
-    output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "main.js"
+module.exports={
+    name:'cart',
+    entry:"./src/index.js",
+    mode:"development",
+    output:{
+        path:path.resolve(__dirname,"dist"),
+        filename:"main.js"
     },
-    devServer: {
-        port: 3001,
+    devServer:{
+        port:3005,
         liveReload: true,
-        historyApiFallback: true,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        }
+        historyApiFallback:true
     },
     module: {
         rules: [
@@ -34,19 +31,18 @@ module.exports = {
             }
         ]
     },
-    plugins: [
+    plugins:[
         new HtmlWebpackPlugin({
             template: "./public/index.html",
             filename: "index.html"
         }),
         new ModuleFederationPlugin({
-            name: "main",
+            name: "cart",
             filename: "remoteEntry.js",
-            remotes: {
-                navigation: "navigation@http://localhost:3002/remoteEntry.js",
-                cart: "cart@http://localhost:3003/remoteEntry.js"
+            remotes: {},
+            exposes: {
+                "./Cart":"./src/Cart.js"
             },
-            exposes: {},
             shared: {
                 "react": {
                     singleton: true,
@@ -61,7 +57,5 @@ module.exports = {
 
             }
         })
-    ],
-
+    ]
 }
-//http://localhost:3002"
